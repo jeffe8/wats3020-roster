@@ -99,7 +99,14 @@ class Course {
     // Create a method called `setTeacher()` that prompts the user for the
     // information required to create a `Teacher` object (`name`, `email`) and
     // does so, then sets the `this.teacher` property equal to the new `Teacher` object.
-
+    setTeacher(){
+      let name = prompt('Full Teacher Name:');
+      let email = prompt('Teacher Email:');
+      let honorific = prompt('Honorific (e.g. Dr., Prof. Mr. Ms.):');
+      
+      this.teacher = new Teacher(name, email, honorific);
+      updateRoster(this);
+    }
 
     /////////////////////////////////////////
     // TODO: ADD `markAttendance()` method /////////////////////////////////////
@@ -115,12 +122,22 @@ class Course {
     // that goal. Note that you will also have to handle two cases: The default
     // behavior should be to mark the student present. The alternate behavior
     // should be to mark the student absent.
-
+        
+  
+  
     // TODO: Now that we have retrieved the specific `Student` object we want
     // to work with, we can use the appropriate method on the `Student` object
     // to record the attendance.
 
-
+    markAttendance(username, status='present'){
+      let student = this.findStudent(username);
+      if (status === 'present'){
+        student.attendance.push(1);
+      } else {
+        student.attendance.push(0);
+      }
+      updateRoster(this);
+    }
 
     //////////////////////////////////////////////
     // Methods provided for you -- DO NOT EDIT /////////////////////////////////
@@ -143,7 +160,7 @@ class Course {
 //
 let courseCode = prompt('Enter the course Code (example: WATS 3020):', 'TEST 3000');
 // TODO: Prompt the user for the `courseTitle` (the name of the course, like "Introduction to JavaScript").
-let courseTitile = prompt('Course Titile:', 'TESTING FOR EVERYONE');
+let courseTitle = prompt('Course Titile:', 'TESTING FOR EVERYONE');
 // TODO: Prompt the user for the  `courseDescription` (the descriptive summary of the course).
 let courseDescription = prompt('Course Description:', 'A wonderful course with an amazing teacher.');
 // Create a new `Course` object instance called `myCourse` using the three data points just collected from the user.
