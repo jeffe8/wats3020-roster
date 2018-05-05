@@ -10,6 +10,13 @@
 // and `email` and makes those available as attributes. The `constructor()`
 // method should also break the username from before the `@` symbol in the
 // `email` value and use that to store on a `this.username` property.
+class Person {
+  constructor(name, email) {
+    this.name = name;
+    this.email = email;
+    this.username = email.split('@')[0]
+  }
+}
 
 // TODO: Create another class that extends the `Person` class called `Student`.
 // The `Student` class should add a line to the `constructor()` method that sets
@@ -18,6 +25,11 @@
 // use the `super()` command so you don't lose the functionality of the
 // `constructor()` method from the `Person` class.)
 //
+class Student extends Person {
+  constructor(name, email) {
+    super(name, email);
+    this.attendance = [];
+  }
 
 
 // TODO: Create another method on the `Student` class called `calculateAttendance`.
@@ -26,12 +38,30 @@
 // recorded into an Array using either a `0` for "absent" or a `1` for "present".
 // This should allow attendance percentage to be calculated as the average of
 // all the items in the `attendance` Array.
+calculateAttendance(){
+  if (this.attendance.length > 0) {
+      let counter = 0;
+      for (let mark of this.attendance){
+        counter = counter + mark; 
+      }
+      let attendancePercentage = counter / this.attendance.length * 100;
+      return '${attendancePercentage}%';
+  } else {
+    return "0%";
+  }
+  }
 
+}
 
 // TODO: Create another class that extends the `Person` class called `Teacher`.
 // The `Teacher` class should add a property called `this.honorific` (supplied
 // when an instance of `Teacher` is created).
-
+class Teacher extends Person {
+  constructor(name, email, honorific){
+    super(name, email);
+    this.honorific = honorific;
+  }
+}
 
 // TODO: Set up our Course class so we can run the whole roster from it.
 class Course {
@@ -53,7 +83,14 @@ class Course {
     // to update the roster display by calling `updateRoster()`. You will need
     // to reference the Class instance using `this` as a parameter for
     // `updateRoster()`, so it might look like this: `updateRoster(this)`.
-
+    
+    addStudent(){
+      let name = prompt ('Student Full Name:');
+      let email = prompt('Student Email:');
+      let newStudent = new Student(name, email);
+      this.students.push(newStudent);
+      updateRoster(this);
+    }
 
     /////////////////////////////////////////
     // TODO: ADD the `setTeacher()` method /////////////////////////////////////
@@ -104,18 +141,14 @@ class Course {
 // TODO: Prompt User for Course Info  //////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Prompt the user for information to create the Course. In order to create a
-// `Course` object, you must gather the following information:
-//
-// TODO: Prompt the user for the `courseCode` (the number/code of the course, like "WATS 3000").
-
+let courseCode = prompt('Enter the course Code (example: WATS 3020):', 'TEST 3000');
 // TODO: Prompt the user for the `courseTitle` (the name of the course, like "Introduction to JavaScript").
-
+let courseTitile = prompt('Course Titile:', 'TESTING FOR EVERYONE');
 // TODO: Prompt the user for the  `courseDescription` (the descriptive summary of the course).
-
+let courseDescription = prompt('Course Description:', 'A wonderful course with an amazing teacher.');
 // Create a new `Course` object instance called `myCourse` using the three data points just collected from the user.
 // TODO: Add in the values for the information supplied by the user above.
-
+let myCourse = new Course(courseCode, courseTitle, courseDescription);
 
 ///////////////////////////////////////////////////
 //////// Main Script /////////////////////////////
